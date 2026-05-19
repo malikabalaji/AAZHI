@@ -575,12 +575,10 @@ const AAZHI={sb:null,user:null,favs:new Set()};
 function aazhiInitSupabase(){
   if(!window.SUPABASE_URL||!window.SUPABASE_ANON_KEY||window.SUPABASE_URL.includes('YOUR-PROJECT')){
     console.warn('Supabase config not set. Edit supabase-config.js with your project URL + anon key.');
-    gateOpen();
     return;
   }
-  if(!window.supabase){console.warn('Supabase JS client not loaded');gateOpen();return;}
+  if(!window.supabase){console.warn('Supabase JS client not loaded');return;}
   AAZHI.sb=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
-  gateOpen();
   AAZHI.sb.auth.onAuthStateChange((event,session)=>{
     AAZHI.user=session?session.user:null;
     aazhiSyncUI();
@@ -591,7 +589,6 @@ function aazhiInitSupabase(){
     } else if(event==='SIGNED_OUT'){
       AAZHI.favs.clear();
       go('home');
-      gateOpen();
     }
   });
   AAZHI.sb.auth.getSession().then(({data})=>{
@@ -643,7 +640,6 @@ function openAuth(title){
   setTimeout(()=>document.getElementById('authEmail').focus(),200);
 }
 function closeAuth(){
-  if(!AAZHI.user)return;
   document.getElementById('authBk').classList.remove('op');
   document.getElementById('authO').classList.remove('op');
   document.body.style.overflow='';
