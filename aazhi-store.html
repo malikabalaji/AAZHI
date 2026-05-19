@@ -29,12 +29,25 @@ a{color:inherit}
 .nav.dark-nav .nav-mid a:hover,.nav.dark-nav .nav-mid a.act{color:white}
 .nav.dark-nav.sc .nav-mid a{color:var(--txt-s)}
 .nav.dark-nav.sc .nav-mid a:hover,.nav.dark-nav.sc .nav-mid a.act{color:var(--ink)}
-.nav-r{display:flex;align-items:center;gap:24px}
-.nav-cart{position:relative;cursor:pointer;padding:4px}
-.cart-ic{width:22px;height:22px;stroke:var(--ink);stroke-width:1.5;fill:none;transition:stroke .5s}
+.nav-r{display:flex;align-items:center;gap:24px;line-height:1}
+.nav-cart,.nav-search{position:relative;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;line-height:1}
+.cart-ic{display:block;width:22px;height:22px;stroke:var(--ink);stroke-width:1.5;fill:none;transition:stroke .5s}
 .nav.dark-nav .cart-ic{stroke:white}.nav.dark-nav.sc .cart-ic{stroke:var(--ink)}
 .cbadge{position:absolute;top:-4px;right:-6px;background:var(--gold);color:white;font-size:.55rem;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:500}
 .cbadge.on{display:flex}
+.so-bk{position:fixed;inset:0;background:rgba(10,17,40,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease);z-index:200}
+.so-bk.op{opacity:1;pointer-events:auto}
+.so{position:fixed;top:0;left:0;right:0;background:var(--cream);transform:translateY(-100%);transition:transform .45s var(--ease);z-index:201;padding:72px 48px 48px;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-m)}
+.so.op{transform:translateY(0)}
+.so-x{position:absolute;top:22px;right:32px;background:none;border:none;font-size:1.8rem;color:var(--txt-s);cursor:pointer;line-height:1;padding:4px 10px;transition:color .3s}
+.so-x:hover{color:var(--ink)}
+.so-wr{max-width:1100px;margin:0 auto}
+.so-lb{font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.so-inp{width:100%;border:none;border-bottom:1px solid var(--bdr);background:transparent;font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:300;color:var(--ink);padding:8px 0 14px;outline:none;font-style:italic}
+.so-inp::placeholder{color:var(--txt-s);opacity:.5}
+.so-hint{font-size:.65rem;color:var(--txt-s);letter-spacing:.18em;text-transform:uppercase;margin-top:14px}
+.so-res{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;margin-top:36px}
+.so-em{padding:40px 0;text-align:center;color:var(--txt-s);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;grid-column:1/-1}
 
 /* HERO (homepage only) */
 .hero{width:100vw;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);position:relative;overflow:hidden}
@@ -241,8 +254,11 @@ a{color:inherit}
     <li><a onclick="go('shop')" id="lnk-shop">Shop</a></li>
   </ul>
   <div class="nav-r">
+    <div class="nav-search" onclick="tgSearch()" aria-label="Search">
+      <svg class="cart-ic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
     <div class="nav-cart" onclick="tgCart()">
-      <svg class="cic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <svg class="cart-ic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span class="cbadge" id="cBdg">0</span>
     </div>
   </div>
@@ -299,6 +315,16 @@ a{color:inherit}
   <div class="ftr-c"><h4>Support</h4><a href="#">Shipping &amp; Returns</a><a href="#">Size Guide</a><a href="#">Contact Us</a></div>
 </div><div class="ftr-bt">&copy; 2026 AAZHI. All rights reserved. Handcrafted with love in Tamil Nadu, India.</div></footer>
 
+<div class="so-bk" id="soBk" onclick="tgSearch()"></div>
+<div class="so" id="soO" role="dialog" aria-label="Search">
+  <button class="so-x" onclick="tgSearch()" aria-label="Close search">&times;</button>
+  <div class="so-wr">
+    <p class="so-lb">Search</p>
+    <input id="soIn" class="so-inp" type="text" placeholder="Search sarees, kurtas, collections…" autocomplete="off" oninput="sRen(this.value)">
+    <p class="so-hint">Press Esc to close</p>
+    <div class="so-res" id="soRs"></div>
+  </div>
+</div>
 <div class="cbk" id="cBk" onclick="tgCart()"></div>
 <div class="csb" id="cSb"><div class="csh"><h3>Your Bag</h3><button class="csx" onclick="tgCart()">&times;</button></div><div class="csbo" id="cBo"><div class="csem">Your bag is empty</div></div><div class="csf" id="cFt" style="display:none"><div class="cstr"><span>Total</span><span id="cTot">&nbsp;</span></div><button class="cgo" onclick="openCO()">Proceed to Checkout</button></div></div>
 <div class="mo" id="pMo"><div class="md"><button class="md-x" onclick="clPM()">&times;</button><div class="md-img"><span class="pi-pat" id="pmP"></span></div><div class="md-det"><p class="md-coll" id="pmC"></p><h2 class="md-name" id="pmN"></h2><p class="md-price" id="pmPr"></p><p class="md-desc" id="pmD"></p><div><p class="flsm">Size</p><div class="szr" id="pmSz"></div></div><div><p class="flsm">Quantity</p><div class="qr"><button class="qb" onclick="cQ(-1)">&minus;</button><span class="qv" id="pmQ">1</span><button class="qb" onclick="cQ(1)">+</button></div></div><button class="atb" onclick="aFM()">Add to Bag</button></div></div></div>
@@ -324,6 +350,8 @@ function rmC(id){cart=cart.filter(c=>c.id!==id);sv();uC()}
 function sv(){localStorage.setItem('aazhi_cart',JSON.stringify(cart))}
 function uC(){const b=document.getElementById('cBdg'),bo=document.getElementById('cBo'),ft=document.getElementById('cFt'),tt=document.getElementById('cTot');const n=cart.reduce((s,c)=>s+c.q,0),sm=cart.reduce((s,c)=>s+c.pr*c.q,0);b.textContent=n;b.classList.toggle('on',n>0);if(!cart.length){bo.innerHTML='<div class="csem">Your bag is empty</div>';ft.style.display='none'}else{bo.innerHTML=cart.map(c=>`<div class="ci"><div class="ci-th" style="background:${CM[c.f]||CM['ocean-weaves']}"><span>${c.pa}</span></div><div class="ci-nf"><p class="ci-nm">${c.n}</p><p class="ci-mt">Size: ${c.sz} &middot; Qty: ${c.q}</p><div class="ci-bt"><span class="ci-pr">\u20B9${(c.pr*c.q).toLocaleString('en-IN')}</span><button class="ci-rm" onclick="rmC('${c.id}')">Remove</button></div></div></div>`).join('');ft.style.display='block';tt.textContent='\u20B9'+sm.toLocaleString('en-IN')}}
 function tgCart(){document.getElementById('cSb').classList.toggle('op');document.getElementById('cBk').classList.toggle('op')}
+function tgSearch(){const o=document.getElementById('soO'),b=document.getElementById('soBk'),i=document.getElementById('soIn');const op=o.classList.toggle('op');b.classList.toggle('op');document.body.style.overflow=op?'hidden':'';if(op){setTimeout(()=>i.focus(),320);sRen('')}else{i.value=''}}
+function sRen(q){const r=document.getElementById('soRs');q=(q||'').trim().toLowerCase();if(!q){r.innerHTML='<p class="so-em">Start typing to find pieces, collections or styles.</p>';return}const l=P.filter(p=>p.n.toLowerCase().includes(q)||p.co.toLowerCase().includes(q)||(p.ds||'').toLowerCase().includes(q)||(p.ca||'').toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q)));if(!l.length){const safe=q.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));r.innerHTML='<p class="so-em">No matches for "'+safe+'"</p>';return}r.innerHTML=l.map(p=>`<div class="pc" onclick="tgSearch();oPM(${p.id})"><div class="pi-img" style="background:${CM[p.f]||CM['ocean-weaves']}">${p.bd?`<span class="pi-bdg${bc(p.bd)}">${p.bd}</span>`:''}<span class="pi-pat">${p.pa}</span><div class="pi-qv">Quick View</div></div><div class="pi-info"><p class="pi-coll">${p.co}</p><h3 class="pi-name">${p.n}</h3><p class="pi-price">₹${p.pr.toLocaleString('en-IN')}</p></div></div>`).join('')}
 function openCO(){if(!cart.length)return;tgCart();document.getElementById('coO').classList.add('on');document.body.style.overflow='hidden';coG(1)}
 function clCO(){document.getElementById('coO').classList.remove('on');document.body.style.overflow=''}
 function coG(s){if(s===2){const n=document.getElementById('cN').value.trim(),e=document.getElementById('cE').value.trim(),ph=document.getElementById('cPh').value.trim(),a=document.getElementById('cA').value.trim();if(!n||!e||!ph||!a){sT('Please fill in all fields');return}}if(s===2){const t=cart.reduce((s,c)=>s+c.pr*c.q,0),sh=t>=999?0:79;document.getElementById('coSm').innerHTML=cart.map(c=>`<div class="cosmi"><span>${c.n} (${c.sz}) x ${c.q}</span><span>\u20B9${(c.pr*c.q).toLocaleString('en-IN')}</span></div>`).join('')+`<div class="cosmi"><span>Shipping</span><span>${sh===0?'FREE':'\u20B9'+sh}</span></div><div class="cosmt"><span>Total</span><span>\u20B9${(t+sh).toLocaleString('en-IN')}</span></div>`}if(s===3){const t=cart.reduce((s,c)=>s+c.pr*c.q,0),sh=t>=999?0:79,gt=t+sh,ord='AZ'+Date.now().toString().slice(-8);const url=`upi://pay?pa=${encodeURIComponent('tl.balaji@okhdfcbank')}&pn=${encodeURIComponent('AAZHI')}&am=${gt}&cu=INR&tn=${encodeURIComponent('AAZHI Order '+ord)}`;document.getElementById('uBtn').href=url;document.getElementById('coP3').dataset.o=ord;gQR(url)}document.querySelectorAll('.cop').forEach(p=>p.classList.remove('ac'));document.getElementById('coP'+s).classList.add('ac');document.querySelectorAll('.cos').forEach(i=>{const n=+i.dataset.s;i.classList.remove('ac','dn');if(n===s)i.classList.add('ac');if(n<s)i.classList.add('dn')})}
@@ -334,7 +362,7 @@ function go(page,filter){document.querySelectorAll('.page').forEach(p=>p.classLi
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('sc',window.scrollY>80)});
 const ro=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart();if(document.getElementById('soO').classList.contains('op'))tgSearch()}});
 // Video hero — aggressive autoplay
 (function(){
   var v = document.getElementById('heroBgVideo');
