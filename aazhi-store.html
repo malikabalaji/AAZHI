@@ -273,8 +273,13 @@ a{color:inherit}
 @media(max-width:480px){.pg{grid-template-columns:1fr}.ftr-g{grid-template-columns:1fr}}
 
 .page{display:none}.page.active{display:block}
-#pg-collections{background:linear-gradient(rgba(250,247,242,.78),rgba(250,247,242,.78)),url('aazhi-shells.png') repeat;background-size:auto,1100px auto;background-attachment:fixed,fixed}
-#pg-collections .shop-sec,#pg-collections .coll-sec{background:transparent}</style>
+#pg-collections{background:linear-gradient(rgba(250,247,242,.78),rgba(250,247,242,.78)),url('aazhi-shells.png') center/cover no-repeat fixed,var(--cream)}
+#pg-collections .shop-sec,#pg-collections .coll-sec{background:transparent}
+#pg-collections .pc{background:transparent;box-shadow:none;border-color:transparent}
+#pg-collections .pc:hover{background:transparent;box-shadow:none;transform:translateY(-4px)}
+#pg-collections .pi-info{padding:18px 8px 8px}
+#pg-collections .pi-name{color:var(--ink)}
+#pg-collections .pi-qv{background:rgba(10,17,40,.85)}</style>
 </head><body>
 
 <nav class="nav dk" id="mainNav">
