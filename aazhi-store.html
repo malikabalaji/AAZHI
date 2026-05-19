@@ -30,19 +30,41 @@ a{color:inherit}
 .nav.dark-nav.sc .nav-mid a{color:var(--txt-s)}
 .nav.dark-nav.sc .nav-mid a:hover,.nav.dark-nav.sc .nav-mid a.act{color:var(--ink)}
 .nav-r{display:flex;align-items:center;gap:24px;line-height:1}
-.nav-cart,.nav-search{position:relative;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;line-height:1}
+.nav-cart,.nav-search,.nav-size{position:relative;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;line-height:1}
 .cart-ic{display:block;width:22px;height:22px;stroke:var(--ink);stroke-width:1.5;fill:none;transition:stroke .5s}
 .nav.dark-nav .cart-ic{stroke:white}.nav.dark-nav.sc .cart-ic{stroke:var(--ink)}
 .cbadge{position:absolute;top:-4px;right:-6px;background:var(--gold);color:white;font-size:.55rem;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:500}
 .cbadge.on{display:flex}
-.so-bk{position:fixed;inset:0;background:rgba(10,17,40,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease);z-index:200}
-.so-bk.op{opacity:1;pointer-events:auto}
-.so{position:fixed;top:0;left:0;right:0;background:var(--cream);transform:translateY(-100%);transition:transform .45s var(--ease);z-index:201;padding:72px 48px 48px;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-m)}
-.so.op{transform:translateY(0)}
-.so-x{position:absolute;top:22px;right:32px;background:none;border:none;font-size:1.8rem;color:var(--txt-s);cursor:pointer;line-height:1;padding:4px 10px;transition:color .3s}
-.so-x:hover{color:var(--ink)}
-.so-wr{max-width:1100px;margin:0 auto}
-.so-lb{font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.so-bk,.sg-bk{position:fixed;inset:0;background:rgba(10,17,40,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease);z-index:200}
+.so-bk.op,.sg-bk.op{opacity:1;pointer-events:auto}
+.so,.sg{position:fixed;top:0;left:0;right:0;background:var(--cream);transform:translateY(-100%);transition:transform .45s var(--ease);z-index:201;padding:72px 48px 48px;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-m)}
+.so.op,.sg.op{transform:translateY(0)}
+.so-x,.sg-x{position:absolute;top:22px;right:32px;background:none;border:none;font-size:1.8rem;color:var(--txt-s);cursor:pointer;line-height:1;padding:4px 10px;transition:color .3s}
+.so-x:hover,.sg-x:hover{color:var(--ink)}
+.so-wr,.sg-wr{max-width:1100px;margin:0 auto}
+.so-lb,.sg-lb{font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.sg-h{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:300;color:var(--ink);margin-bottom:8px}
+.sg-h em{font-style:italic;color:var(--gold)}
+.sg-sub{font-size:.8rem;color:var(--txt-s);margin-bottom:28px;line-height:1.6;max-width:600px}
+.sg-tabs{display:flex;gap:28px;border-bottom:1px solid var(--bdr);margin-bottom:28px;overflow-x:auto}
+.sg-tab{background:none;border:none;font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--txt-s);cursor:pointer;padding:12px 0;position:relative;white-space:nowrap;transition:color .3s}
+.sg-tab::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+.sg-tab.act,.sg-tab:hover{color:var(--ink)}
+.sg-tab.act::after{width:100%}
+.sg-pan{display:none}
+.sg-pan.act{display:block}
+.sg-tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px}
+.sg-tbl th,.sg-tbl td{padding:14px 12px;text-align:center;border-bottom:1px solid var(--bdr)}
+.sg-tbl th{font-family:'Jost',sans-serif;font-weight:400;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:rgba(184,149,106,.05)}
+.sg-tbl td{font-weight:300;color:var(--txt)}
+.sg-tbl td:first-child{font-weight:500;color:var(--ink);letter-spacing:.08em}
+.sg-tbl tbody tr:hover td{background:rgba(184,149,106,.04)}
+.sg-note{font-size:.75rem;color:var(--txt-s);font-style:italic;line-height:1.6}
+.sg-tips{margin-top:36px;padding:24px 28px;background:rgba(184,149,106,.06);border-left:2px solid var(--gold)}
+.sg-tips h4{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--ink);margin-bottom:10px}
+.sg-tips ul{list-style:none;padding:0}
+.sg-tips li{font-size:.8rem;color:var(--txt-s);padding:5px 0 5px 20px;position:relative;line-height:1.6}
+.sg-tips li::before{content:'—';position:absolute;left:0;color:var(--gold)}
 .so-inp{width:100%;border:none;border-bottom:1px solid var(--bdr);background:transparent;font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:300;color:var(--ink);padding:8px 0 14px;outline:none;font-style:italic}
 .so-inp::placeholder{color:var(--txt-s);opacity:.5}
 .so-hint{font-size:.65rem;color:var(--txt-s);letter-spacing:.18em;text-transform:uppercase;margin-top:14px}
@@ -257,6 +279,9 @@ a{color:inherit}
     <div class="nav-search" onclick="tgSearch()" aria-label="Search">
       <svg class="cart-ic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
+    <div class="nav-size" onclick="tgSize()" aria-label="Size guide">
+      <svg class="cart-ic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="6" rx="1"/><line x1="6" y1="9" x2="6" y2="12"/><line x1="10" y1="9" x2="10" y2="13"/><line x1="14" y1="9" x2="14" y2="12"/><line x1="18" y1="9" x2="18" y2="13"/></svg>
+    </div>
     <div class="nav-cart" onclick="tgCart()">
       <svg class="cart-ic" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span class="cbadge" id="cBdg">0</span>
@@ -325,6 +350,74 @@ a{color:inherit}
     <div class="so-res" id="soRs"></div>
   </div>
 </div>
+<div class="sg-bk" id="sgBk" onclick="tgSize()"></div>
+<div class="sg" id="sgO" role="dialog" aria-label="Size guide">
+  <button class="sg-x" onclick="tgSize()" aria-label="Close size guide">&times;</button>
+  <div class="sg-wr">
+    <p class="sg-lb">Size Guide</p>
+    <h2 class="sg-h">Find your <em>perfect fit</em></h2>
+    <p class="sg-sub">All garment measurements are in inches and based on body measurements, not finished garment. Handloom pieces may vary by ±0.5". Sarees, wraps and dupattas are Free Size.</p>
+    <div class="sg-tabs">
+      <button class="sg-tab act" data-pan="women" onclick="sgT('women')">Women's Tops</button>
+      <button class="sg-tab" data-pan="bottoms" onclick="sgT('bottoms')">Bottoms</button>
+      <button class="sg-tab" data-pan="men" onclick="sgT('men')">Men's &amp; Unisex</button>
+      <button class="sg-tab" data-pan="foot" onclick="sgT('foot')">Footwear</button>
+    </div>
+    <div class="sg-pan act" id="sgp-women">
+      <table class="sg-tbl"><thead><tr><th>Size</th><th>Bust</th><th>Waist</th><th>Hip</th><th>Shoulder</th></tr></thead><tbody>
+        <tr><td>XS</td><td>32"</td><td>25"</td><td>35"</td><td>13.5"</td></tr>
+        <tr><td>S</td><td>34"</td><td>27"</td><td>37"</td><td>14"</td></tr>
+        <tr><td>M</td><td>36"</td><td>29"</td><td>39"</td><td>14.5"</td></tr>
+        <tr><td>L</td><td>38"</td><td>31"</td><td>41"</td><td>15"</td></tr>
+        <tr><td>XL</td><td>40"</td><td>33"</td><td>43"</td><td>15.5"</td></tr>
+        <tr><td>XXL</td><td>42"</td><td>35"</td><td>45"</td><td>16"</td></tr>
+      </tbody></table>
+      <p class="sg-note">Relaxed-fit kurtas and oversized tees are designed with 2–4" extra ease — size down for a closer fit.</p>
+    </div>
+    <div class="sg-pan" id="sgp-bottoms">
+      <table class="sg-tbl"><thead><tr><th>Size</th><th>Waist</th><th>Hip</th><th>Inseam</th></tr></thead><tbody>
+        <tr><td>XS</td><td>25"</td><td>35"</td><td>28"</td></tr>
+        <tr><td>S</td><td>27"</td><td>37"</td><td>28.5"</td></tr>
+        <tr><td>M</td><td>29"</td><td>39"</td><td>29"</td></tr>
+        <tr><td>L</td><td>31"</td><td>41"</td><td>29.5"</td></tr>
+        <tr><td>XL</td><td>33"</td><td>43"</td><td>30"</td></tr>
+      </tbody></table>
+      <p class="sg-note">Pants sit at the natural waist. High-rise styles (Loom Stripe, Tsunami Wide Legs) add ~1.5" rise.</p>
+    </div>
+    <div class="sg-pan" id="sgp-men">
+      <table class="sg-tbl"><thead><tr><th>Size</th><th>Chest</th><th>Waist</th><th>Shoulder</th><th>Length</th></tr></thead><tbody>
+        <tr><td>S</td><td>38"</td><td>32"</td><td>17"</td><td>28"</td></tr>
+        <tr><td>M</td><td>40"</td><td>34"</td><td>17.5"</td><td>28.5"</td></tr>
+        <tr><td>L</td><td>42"</td><td>36"</td><td>18"</td><td>29"</td></tr>
+        <tr><td>XL</td><td>44"</td><td>38"</td><td>18.5"</td><td>29.5"</td></tr>
+        <tr><td>XXL</td><td>46"</td><td>40"</td><td>19"</td><td>30"</td></tr>
+      </tbody></table>
+      <p class="sg-note">Unisex pieces (Yazh Kurta, Rhythm Shirt, Heritage Hoodie) follow this chart — women may size down one.</p>
+    </div>
+    <div class="sg-pan" id="sgp-foot">
+      <table class="sg-tbl"><thead><tr><th>UK</th><th>EU</th><th>US Men</th><th>US Women</th><th>Foot length</th></tr></thead><tbody>
+        <tr><td>UK 6</td><td>39</td><td>7</td><td>8</td><td>24.0 cm</td></tr>
+        <tr><td>UK 7</td><td>40</td><td>8</td><td>9</td><td>24.7 cm</td></tr>
+        <tr><td>UK 8</td><td>41</td><td>9</td><td>10</td><td>25.4 cm</td></tr>
+        <tr><td>UK 9</td><td>43</td><td>10</td><td>11</td><td>26.0 cm</td></tr>
+        <tr><td>UK 10</td><td>44</td><td>11</td><td>12</td><td>26.7 cm</td></tr>
+        <tr><td>UK 11</td><td>45</td><td>12</td><td>13</td><td>27.4 cm</td></tr>
+      </tbody></table>
+      <p class="sg-note">Catamaran Sneakers run true to size — measure heel-to-toe of your longest foot for best results.</p>
+    </div>
+    <div class="sg-tips">
+      <h4>How to measure</h4>
+      <ul>
+        <li>Bust / Chest — measure around the fullest part, keeping the tape level and parallel to the floor.</li>
+        <li>Waist — measure the narrowest part of your torso, usually just above the navel.</li>
+        <li>Hip — measure the widest part of the hips, about 8" below the waist.</li>
+        <li>Shoulder — measure across the back, seam to seam.</li>
+        <li>Inseam — from the top of the inner thigh straight down to the ankle bone.</li>
+        <li>Use a soft tape, measure over light clothing, and don't pull tight — leave a finger of slack.</li>
+      </ul>
+    </div>
+  </div>
+</div>
 <div class="cbk" id="cBk" onclick="tgCart()"></div>
 <div class="csb" id="cSb"><div class="csh"><h3>Your Bag</h3><button class="csx" onclick="tgCart()">&times;</button></div><div class="csbo" id="cBo"><div class="csem">Your bag is empty</div></div><div class="csf" id="cFt" style="display:none"><div class="cstr"><span>Total</span><span id="cTot">&nbsp;</span></div><button class="cgo" onclick="openCO()">Proceed to Checkout</button></div></div>
 <div class="mo" id="pMo"><div class="md"><button class="md-x" onclick="clPM()">&times;</button><div class="md-img"><span class="pi-pat" id="pmP"></span></div><div class="md-det"><p class="md-coll" id="pmC"></p><h2 class="md-name" id="pmN"></h2><p class="md-price" id="pmPr"></p><p class="md-desc" id="pmD"></p><div><p class="flsm">Size</p><div class="szr" id="pmSz"></div></div><div><p class="flsm">Quantity</p><div class="qr"><button class="qb" onclick="cQ(-1)">&minus;</button><span class="qv" id="pmQ">1</span><button class="qb" onclick="cQ(1)">+</button></div></div><button class="atb" onclick="aFM()">Add to Bag</button></div></div></div>
@@ -351,6 +444,8 @@ function sv(){localStorage.setItem('aazhi_cart',JSON.stringify(cart))}
 function uC(){const b=document.getElementById('cBdg'),bo=document.getElementById('cBo'),ft=document.getElementById('cFt'),tt=document.getElementById('cTot');const n=cart.reduce((s,c)=>s+c.q,0),sm=cart.reduce((s,c)=>s+c.pr*c.q,0);b.textContent=n;b.classList.toggle('on',n>0);if(!cart.length){bo.innerHTML='<div class="csem">Your bag is empty</div>';ft.style.display='none'}else{bo.innerHTML=cart.map(c=>`<div class="ci"><div class="ci-th" style="background:${CM[c.f]||CM['ocean-weaves']}"><span>${c.pa}</span></div><div class="ci-nf"><p class="ci-nm">${c.n}</p><p class="ci-mt">Size: ${c.sz} &middot; Qty: ${c.q}</p><div class="ci-bt"><span class="ci-pr">\u20B9${(c.pr*c.q).toLocaleString('en-IN')}</span><button class="ci-rm" onclick="rmC('${c.id}')">Remove</button></div></div></div>`).join('');ft.style.display='block';tt.textContent='\u20B9'+sm.toLocaleString('en-IN')}}
 function tgCart(){document.getElementById('cSb').classList.toggle('op');document.getElementById('cBk').classList.toggle('op')}
 function tgSearch(){const o=document.getElementById('soO'),b=document.getElementById('soBk'),i=document.getElementById('soIn');const op=o.classList.toggle('op');b.classList.toggle('op');document.body.style.overflow=op?'hidden':'';if(op){setTimeout(()=>i.focus(),320);sRen('')}else{i.value=''}}
+function tgSize(){const o=document.getElementById('sgO'),b=document.getElementById('sgBk');const op=o.classList.toggle('op');b.classList.toggle('op');document.body.style.overflow=op?'hidden':''}
+function sgT(k){document.querySelectorAll('.sg-tab').forEach(t=>t.classList.toggle('act',t.dataset.pan===k));document.querySelectorAll('.sg-pan').forEach(p=>p.classList.toggle('act',p.id==='sgp-'+k))}
 function sRen(q){const r=document.getElementById('soRs');q=(q||'').trim().toLowerCase();if(!q){r.innerHTML='<p class="so-em">Start typing to find pieces, collections or styles.</p>';return}const l=P.filter(p=>p.n.toLowerCase().includes(q)||p.co.toLowerCase().includes(q)||(p.ds||'').toLowerCase().includes(q)||(p.ca||'').toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q)));if(!l.length){const safe=q.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));r.innerHTML='<p class="so-em">No matches for "'+safe+'"</p>';return}r.innerHTML=l.map(p=>`<div class="pc" onclick="tgSearch();oPM(${p.id})"><div class="pi-img" style="background:${CM[p.f]||CM['ocean-weaves']}">${p.bd?`<span class="pi-bdg${bc(p.bd)}">${p.bd}</span>`:''}<span class="pi-pat">${p.pa}</span><div class="pi-qv">Quick View</div></div><div class="pi-info"><p class="pi-coll">${p.co}</p><h3 class="pi-name">${p.n}</h3><p class="pi-price">₹${p.pr.toLocaleString('en-IN')}</p></div></div>`).join('')}
 function openCO(){if(!cart.length)return;tgCart();document.getElementById('coO').classList.add('on');document.body.style.overflow='hidden';coG(1)}
 function clCO(){document.getElementById('coO').classList.remove('on');document.body.style.overflow=''}
@@ -362,7 +457,7 @@ function go(page,filter){document.querySelectorAll('.page').forEach(p=>p.classLi
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('sc',window.scrollY>80)});
 const ro=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart();if(document.getElementById('soO').classList.contains('op'))tgSearch()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart();if(document.getElementById('soO').classList.contains('op'))tgSearch();if(document.getElementById('sgO').classList.contains('op'))tgSize()}});
 // Video hero — aggressive autoplay
 (function(){
   var v = document.getElementById('heroBgVideo');
