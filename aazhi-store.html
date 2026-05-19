@@ -325,7 +325,6 @@ a{color:inherit}
     <li><a onclick="go('home')" id="lnk-home" class="act">Home</a></li>
     <li><a onclick="go('collections')" id="lnk-collections">Collections</a></li>
     <li><a onclick="go('shop')" id="lnk-shop">Shop</a></li>
-    <li><a onclick="navAccountClick()" id="lnk-account">Sign in</a></li>
   </ul>
   <div class="nav-r">
     <div class="nav-search" onclick="tgSearch()" aria-label="Search">
@@ -677,7 +676,7 @@ async function loadFavs(){
 }
 
 async function toggleFav(pid,btn){
-  if(!AAZHI.user){openAuth();return;}
+  if(!AAZHI.user){sT('Favourites coming soon');return;}
   if(!AAZHI.sb)return;
   const on=AAZHI.favs.has(pid);
   if(on){
@@ -708,7 +707,7 @@ async function renderAcct(){
 // Wrap go() to add a route guard for the account page.
 const _go=go;
 go=function(page,filter){
-  if(page==='account'&&!AAZHI.user){openAuth('Sign in');return;}
+  if(page==='account'&&!AAZHI.user){_go('home');return;}
   _go(page,filter);
   if(page==='account')renderAcct();
 };
