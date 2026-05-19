@@ -272,6 +272,40 @@ a{color:inherit}
 @media(max-width:768px){.nav{padding:16px 20px}.nav-mid{display:none}.hero-h1{font-size:2rem}.hero-ctas{flex-direction:column}.coll-g{grid-template-columns:1fr}.pg{grid-template-columns:repeat(2,1fr);gap:14px}.md{grid-template-columns:1fr}.ftr-g{grid-template-columns:1fr 1fr}.fr{grid-template-columns:1fr}.com{padding:24px}.phdr{padding:120px 24px 60px}.phdr h1{font-size:2.2rem}.nwf{flex-direction:column}.intl{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.pg{grid-template-columns:1fr}.ftr-g{grid-template-columns:1fr}}
 
+/* AUTH MODAL */
+.auth-bk{position:fixed;inset:0;background:rgba(10,17,40,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease);z-index:300}
+.auth-bk.op{opacity:1;pointer-events:auto}
+.auth{position:fixed;top:50%;left:50%;transform:translate(-50%,-40%);background:var(--cream);width:92%;max-width:480px;padding:48px 40px 36px;z-index:301;box-shadow:var(--sh-m);opacity:0;pointer-events:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.auth.op{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.auth.gated .sg-x{display:none}
+.auth-bk.gated{background:rgba(10,17,40,.85)}
+.auth-wr{position:relative}
+.auth .fi{width:100%;padding:12px 16px;border:1px solid var(--bdr);background:white;font-family:'Jost',sans-serif;font-size:.9rem;outline:none}
+.auth .fi:focus{border-color:var(--ink)}
+.auth-msg{margin-top:14px;font-size:.78rem;color:var(--txt-s);min-height:18px;line-height:1.6}
+.auth-msg.err{color:#c0392b}
+.auth-msg.ok{color:#27ae60}
+
+/* ACCOUNT PAGE */
+.acct-card{background:white;padding:32px;border:1px solid var(--bdr);max-width:680px}
+.acct-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--ink);margin-bottom:18px;font-weight:400}
+.acct-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bdr);font-size:.88rem}
+.acct-lbl{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--txt-s)}
+.acct-empty{font-style:italic;color:var(--txt-s);font-size:.85rem;padding:8px 0}
+.acct-ord{padding:18px 0;border-bottom:1px solid var(--bdr)}
+.acct-ord:last-child{border-bottom:none}
+.acct-ord-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.acct-ord-code{font-family:monospace;font-size:.8rem;color:var(--ink)}
+.acct-ord-date{font-size:.72rem;color:var(--txt-s)}
+.acct-ord-total{font-weight:500;font-size:.95rem}
+.acct-ord-items{font-size:.78rem;color:var(--txt-s);line-height:1.7}
+
+/* FAVOURITE HEART */
+.pi-fav{position:absolute;top:10px;right:10px;width:34px;height:34px;background:rgba(255,255,255,.92);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;transition:transform .2s,background .2s;padding:0}
+.pi-fav:hover{transform:scale(1.08);background:white}
+.pi-fav svg{width:18px;height:18px;stroke:var(--ink);stroke-width:1.6;fill:none;transition:fill .2s,stroke .2s}
+.pi-fav.on svg{fill:#c0392b;stroke:#c0392b}
+
 .page{display:none}.page.active{display:block}
 #pg-collections{background:linear-gradient(rgba(250,247,242,.78),rgba(250,247,242,.78)),url('aazhi-shells.png') center/cover no-repeat fixed,var(--cream)}
 #pg-collections .shop-sec,#pg-collections .coll-sec{background:transparent}
@@ -291,6 +325,7 @@ a{color:inherit}
     <li><a onclick="go('home')" id="lnk-home" class="act">Home</a></li>
     <li><a onclick="go('collections')" id="lnk-collections">Collections</a></li>
     <li><a onclick="go('shop')" id="lnk-shop">Shop</a></li>
+    <li><a onclick="navAccountClick()" id="lnk-account">Sign in</a></li>
   </ul>
   <div class="nav-r">
     <div class="nav-search" onclick="tgSearch()" aria-label="Search">
@@ -345,6 +380,37 @@ a{color:inherit}
   <button class="fbtn" data-f="accessory" onclick="fP('accessory')">Accessories</button>
   <button class="fbtn" data-f="streetwear" onclick="fP('streetwear')">Streetwear</button>
 </div><div class="pg" id="pG"></div></section>
+</div>
+
+<div class="page" id="pg-account">
+<div class="phdr"><p class="bc"><a onclick="go('home')" style="cursor:pointer">Home</a> &rsaquo; Account</p><h1>Your Account</h1></div>
+<section class="shop-sec">
+  <div class="acct-card">
+    <h3>Profile</h3>
+    <p class="acct-row"><span class="acct-lbl">Signed in as</span><span id="acctEmailRow">&mdash;</span></p>
+    <button class="atb" style="margin-top:18px;max-width:240px" onclick="aazhiLogout()">Sign out</button>
+  </div>
+  <div class="acct-card" style="margin-top:32px">
+    <h3>Order history</h3>
+    <div id="acctOrders"><p class="acct-empty">Loading orders&hellip;</p></div>
+  </div>
+</section>
+</div>
+
+<div class="auth-bk" id="authBk" onclick="closeAuth()"></div>
+<div class="auth" id="authO" role="dialog" aria-label="Sign in">
+  <button class="sg-x" onclick="closeAuth()" aria-label="Close">&times;</button>
+  <div class="auth-wr">
+    <p class="sg-lb">Sign in</p>
+    <h2 class="sg-h" id="authTitle">Welcome to <em>AAZHI</em></h2>
+    <p class="sg-sub" id="authSub">Enter your email and we'll send you a magic link to sign in. No password needed.</p>
+    <form onsubmit="event.preventDefault();sendMagicLink()" id="authForm">
+      <label class="fl" style="display:block">Email</label>
+      <input class="fi" id="authEmail" type="email" required placeholder="you@example.com" autocomplete="email">
+      <button type="submit" class="atb" id="authBtn" style="margin-top:14px">Send magic link</button>
+    </form>
+    <p class="auth-msg" id="authMsg"></p>
+  </div>
 </div>
 
 <footer class="ftr"><div class="ftr-g">
@@ -442,11 +508,14 @@ a{color:inherit}
 <div class="cop" id="coP4"><div class="odone"><div class="odicon">&check;</div><h2>Order Placed!</h2><p style="color:var(--txt-s);margin-bottom:12px">Thank you for shopping with AAZHI</p><div class="oidb" id="oId"></div><p style="font-size:.82rem;color:var(--txt-s);margin-top:16px">We will verify payment and send confirmation.</p><button class="sb sbn" onclick="clCO()" style="margin-top:24px;max-width:260px;margin-left:auto;margin-right:auto">Continue Shopping</button></div></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>const P=[{"id": 1, "n": "Kadal Pattu Saree", "co": "Ocean Weaves", "ca": "saree", "f": "ocean-weaves", "pr": 1399, "bd": "Bestseller", "pa": "\u0b95\u0b9f\u0bb2\u0bcd", "sz": ["Free Size"], "ds": "A stunning handwoven saree inspired by deep ocean currents.", "tags": ["heritage", "premium"]}, {"id": 2, "n": "Neithal Kurta", "co": "Ocean Weaves", "ca": "kurta", "f": "ocean-weaves", "pr": 899, "bd": "", "pa": "\u0ba8\u0bc6\u0baf\u0bcd\u0ba4\u0bb2\u0bcd", "sz": ["S", "M", "L", "XL", "XXL"], "ds": "Flowing kurta in ocean-inspired prints.", "tags": ["unisex", "everyday"]}, {"id": 3, "n": "Thirai Wrap", "co": "Ocean Weaves", "ca": "wrap", "f": "ocean-weaves", "pr": 799, "bd": "", "pa": "\u0ba4\u0bbf\u0bb0\u0bc8", "sz": ["Free Size"], "ds": "Versatile wrap inspired by ocean waves.", "tags": ["versatile", "genz"]}, {"id": 4, "n": "Sangamam Saree", "co": "Ocean Weaves", "ca": "saree", "f": "ocean-weaves", "pr": 1299, "bd": "", "pa": "\u0b9a\u0b99\u0bcd\u0b95\u0bae\u0bae\u0bcd", "sz": ["Free Size"], "ds": "Where river meets ocean \u2014 gradient tones from earthy browns to deep blues.", "tags": ["heritage"]}, {"id": 5, "n": "Alai Kurta Set", "co": "Ocean Weaves", "ca": "kurta", "f": "ocean-weaves", "pr": 1099, "bd": "", "pa": "\u0b85\u0bb2\u0bc8", "sz": ["S", "M", "L", "XL"], "ds": "Wave-pattern kurta set with matching palazzo.", "tags": ["set", "genz"]}, {"id": 6, "n": "Muthu Earrings", "co": "Ocean Weaves", "ca": "accessory", "f": "ocean-weaves", "pr": 599, "bd": "New", "pa": "\u0bae\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1", "sz": ["One Size"], "ds": "Pearl-inspired drop earrings handcrafted in Tuticorin.", "tags": ["accessory", "genz"]}, {"id": 15, "n": "Tidal Crop Top", "co": "Ocean Weaves", "ca": "top", "f": "ocean-weaves", "pr": 699, "bd": "GenZ Pick", "pa": "\u0b93\u0ba4\u0bae\u0bcd", "sz": ["XS", "S", "M", "L"], "ds": "Cropped indigo-dyed cotton top with wave-pattern hemline.", "tags": ["genz", "trending"]}, {"id": 16, "n": "Reef Runner Joggers", "co": "Ocean Weaves", "ca": "bottom", "f": "ocean-weaves", "pr": 999, "bd": "", "pa": "\u0baa\u0bb5\u0bb3\u0bae\u0bcd", "sz": ["S", "M", "L", "XL"], "ds": "Relaxed-fit handloom cotton joggers with coral reef motifs.", "tags": ["genz", "streetwear", "unisex"]}, {"id": 17, "n": "Deep Blue Oversized Tee", "co": "Ocean Weaves", "ca": "top", "f": "ocean-weaves", "pr": 799, "bd": "Trending", "pa": "\u0ba8\u0bc0\u0bb2\u0bae\u0bcd", "sz": ["S", "M", "L", "XL", "XXL"], "ds": "Oversized organic cotton tee in deep ocean indigo. Unisex fit.", "tags": ["genz", "unisex", "international"]}, {"id": 18, "n": "Marina Bucket Hat", "co": "Ocean Weaves", "ca": "accessory", "f": "ocean-weaves", "pr": 499, "bd": "", "pa": "\u0ba4\u0bc1\u0bb1\u0bc8", "sz": ["One Size"], "ds": "Hand-block printed reversible bucket hat in ocean blue.", "tags": ["genz", "accessory", "international"]}, {"id": 7, "n": "Kolam Print Saree", "co": "Block Prints", "ca": "saree", "f": "block-prints", "pr": 1199, "bd": "", "pa": "\u0b95\u0bcb\u0bb2\u0bae\u0bcd", "sz": ["Free Size"], "ds": "Traditional kolam patterns hand-block printed on pure cotton.", "tags": ["heritage"]}, {"id": 8, "n": "Yazh Kurta", "co": "Block Prints", "ca": "kurta", "f": "block-prints", "pr": 849, "bd": "", "pa": "\u0baf\u0bbe\u0bb4\u0bcd", "sz": ["S", "M", "L", "XL", "XXL"], "ds": "Named after the ancient Tamil harp, featuring musical motifs.", "tags": ["unisex"]}, {"id": 9, "n": "Paavai Dupatta", "co": "Block Prints", "ca": "wrap", "f": "block-prints", "pr": 699, "bd": "New", "pa": "\u0baa\u0bbe\u0bb5\u0bc8", "sz": ["Free Size"], "ds": "Delicate block-printed dupatta with Paavai motifs on khadi.", "tags": ["heritage"]}, {"id": 10, "n": "Mandala Scarf", "co": "Block Prints", "ca": "accessory", "f": "block-prints", "pr": 649, "bd": "", "pa": "\u0bae\u0ba3\u0bcd\u0b9f\u0bb2\u0bae\u0bcd", "sz": ["Free Size"], "ds": "Geometric mandala patterns in vegetable dyes on fine cotton.", "tags": ["international", "accessory"]}, {"id": 19, "n": "Kolam Bomber Jacket", "co": "Block Prints", "ca": "jacket", "f": "block-prints", "pr": 1399, "bd": "Limited", "pa": "\u0bb5\u0bb0\u0bc8", "sz": ["S", "M", "L", "XL"], "ds": "Lightweight cotton bomber with all-over kolam block print.", "tags": ["genz", "streetwear", "international", "premium"]}, {"id": 20, "n": "Stamp Art Co-ord Set", "co": "Block Prints", "ca": "set", "f": "block-prints", "pr": 1199, "bd": "", "pa": "\u0bae\u0bc1\u0ba4\u0bcd\u0ba4\u0bbf\u0bb0\u0bc8", "sz": ["XS", "S", "M", "L"], "ds": "Matching crop top and wide-leg pants in hand-stamped prints.", "tags": ["genz", "set", "trending"]}, {"id": 21, "n": "Rhythm Shirt", "co": "Block Prints", "ca": "shirt", "f": "block-prints", "pr": 899, "bd": "", "pa": "\u0ba4\u0bbe\u0bb3\u0bae\u0bcd", "sz": ["S", "M", "L", "XL", "XXL"], "ds": "Relaxed camp-collar shirt with rhythmic block-print patterns.", "tags": ["unisex", "international", "genz"]}, {"id": 22, "n": "Lotus Tote Bag", "co": "Block Prints", "ca": "accessory", "f": "block-prints", "pr": 599, "bd": "", "pa": "\u0ba4\u0bbe\u0bae\u0bb0\u0bc8", "sz": ["One Size"], "ds": "Canvas tote with hand-stamped lotus mandala. Natural dye.", "tags": ["accessory", "genz", "international"]}, {"id": 11, "n": "Kanchipuram Silk", "co": "Handloom Heritage", "ca": "saree", "f": "handloom", "pr": 1399, "bd": "Premium", "pa": "\u0b95\u0bbe\u0b9e\u0bcd\u0b9a\u0bbf", "sz": ["Free Size"], "ds": "Pure silk with temple border motifs woven on pit looms.", "tags": ["heritage", "premium"]}, {"id": 12, "n": "Chettinad Kurta", "co": "Handloom Heritage", "ca": "kurta", "f": "handloom", "pr": 999, "bd": "", "pa": "\u0b9a\u0bc6\u0b9f\u0bcd\u0b9f\u0bbf\u0ba8\u0bbe\u0b9f\u0bc1", "sz": ["S", "M", "L", "XL"], "ds": "Bold geometric patterns inspired by Chettinad architecture.", "tags": ["heritage", "unisex"]}, {"id": 13, "n": "Veshti Wrap", "co": "Handloom Heritage", "ca": "wrap", "f": "handloom", "pr": 899, "bd": "", "pa": "\u0bb5\u0bc7\u0bb7\u0bcd\u0b9f\u0bbf", "sz": ["Free Size"], "ds": "Modern reinterpretation of the classic Tamil veshti.", "tags": ["heritage"]}, {"id": 14, "n": "Temple Jhumkas", "co": "Handloom Heritage", "ca": "accessory", "f": "handloom", "pr": 749, "bd": "", "pa": "\u0b95\u0bcb\u0baf\u0bbf\u0bb2\u0bcd", "sz": ["One Size"], "ds": "Temple jewelry-inspired jhumkas with Dravidian motifs.", "tags": ["accessory", "heritage"]}, {"id": 23, "n": "Heritage Hoodie", "co": "Handloom Heritage", "ca": "hoodie", "f": "handloom", "pr": 1299, "bd": "Drop", "pa": "\u0baa\u0bbe\u0bb0\u0bae\u0bcd\u0baa\u0bb0\u0bbf\u0baf\u0bae\u0bcd", "sz": ["S", "M", "L", "XL", "XXL"], "ds": "Heavyweight organic cotton hoodie with handloom pocket panel.", "tags": ["genz", "streetwear", "international", "premium"]}, {"id": 24, "n": "Loom Stripe Pants", "co": "Handloom Heritage", "ca": "bottom", "f": "handloom", "pr": 999, "bd": "", "pa": "\u0ba8\u0bc6\u0b9a\u0bb5\u0bc1", "sz": ["S", "M", "L", "XL"], "ds": "High-waisted straight-leg pants in handloom striped cotton.", "tags": ["genz", "international", "everyday"]}, {"id": 25, "n": "Dravidian Ring Set", "co": "Handloom Heritage", "ca": "accessory", "f": "handloom", "pr": 899, "bd": "New", "pa": "\u0ba4\u0bbf\u0bb0\u0bbe\u0bb5\u0bbf\u0b9f\u0bae\u0bcd", "sz": ["Adjustable"], "ds": "Set of 3 stackable brass rings with temple motifs.", "tags": ["accessory", "genz", "international"]}, {"id": 26, "n": "Weavers Crossbody", "co": "Handloom Heritage", "ca": "accessory", "f": "handloom", "pr": 1099, "bd": "", "pa": "\u0ba8\u0bc6\u0b9a\u0bb5\u0bbe\u0bb3\u0bb0\u0bcd", "sz": ["One Size"], "ds": "Compact crossbody bag in handloom fabric with leather trim.", "tags": ["accessory", "international", "everyday"]}, {"id": 27, "n": "Surf and Turf Shirt", "co": "Coastal Contemporary", "ca": "shirt", "f": "coastal", "pr": 849, "bd": "New Drop", "pa": "\u0b95\u0bb0\u0bc8", "sz": ["S", "M", "L", "XL"], "ds": "Breezy linen-cotton shirt with abstract coastline print.", "tags": ["genz", "international", "trending"]}, {"id": 28, "n": "Tsunami Wide Legs", "co": "Coastal Contemporary", "ca": "bottom", "f": "coastal", "pr": 1099, "bd": "", "pa": "\u0b9a\u0bc1\u0ba9\u0bbe\u0bae\u0bbf", "sz": ["XS", "S", "M", "L"], "ds": "Dramatic wide-leg pants in graduating ocean blue khadi.", "tags": ["genz", "international", "premium"]}, {"id": 29, "n": "Shore Break Dress", "co": "Coastal Contemporary", "ca": "dress", "f": "coastal", "pr": 1299, "bd": "", "pa": "\u0b95\u0b9f\u0bb1\u0bcd\u0b95\u0bb0\u0bc8", "sz": ["XS", "S", "M", "L", "XL"], "ds": "Midi dress with asymmetric hemline inspired by shoreline waves.", "tags": ["genz", "international", "trending"]}, {"id": 30, "n": "Lighthouse Earrings", "co": "Coastal Contemporary", "ca": "accessory", "f": "coastal", "pr": 699, "bd": "", "pa": "\u0b95\u0bb2\u0b99\u0bcd\u0b95\u0bb0\u0bc8", "sz": ["One Size"], "ds": "Geometric brass earrings inspired by Tamil Nadu lighthouses.", "tags": ["accessory", "genz", "international"]}, {"id": 31, "n": "Pondicherry Linen Set", "co": "Coastal Contemporary", "ca": "set", "f": "coastal", "pr": 1399, "bd": "Bestseller", "pa": "\u0baa\u0bc1\u0ba4\u0bc1\u0b9a\u0bcd\u0b9a\u0bc7\u0bb0\u0bbf", "sz": ["S", "M", "L", "XL"], "ds": "Relaxed linen shirt and shorts set in sun-bleached tones.", "tags": ["genz", "international", "set", "premium"]}, {"id": 32, "n": "Catamaran Sneakers", "co": "Coastal Contemporary", "ca": "footwear", "f": "coastal", "pr": 1399, "bd": "", "pa": "\u0b95\u0b9f\u0bcd\u0b9f\u0bc1\u0bae\u0bb0\u0bae\u0bcd", "sz": ["UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"], "ds": "Canvas sneakers with hand-painted catamaran motifs. Limited edition.", "tags": ["genz", "international", "trending"]}];
 const CM={"ocean-weaves":"linear-gradient(135deg,#0E1F3E,#1B3A6B)","block-prints":"linear-gradient(135deg,#1a0a2e,#2d1b50)","handloom":"linear-gradient(135deg,#2a1a0e,#4a2d1a)","coastal":"linear-gradient(135deg,#0a2828,#1a5050)"};
 let cart=JSON.parse(localStorage.getItem('aazhi_cart')||'[]'),cP=null,mQ=1,sS=null;
 function bc(b){if(!b)return'';const l=b.toLowerCase();if(l.includes('genz')||l.includes('trending'))return' gz';if(l.includes('drop'))return' dr';if(l.includes('limited'))return' lt';return''}
-function rP(cid,f,st){const g=document.getElementById(cid);if(!g)return;let l=P;if(f&&f!=='all')l=P.filter(p=>p.f===f||p.ca===f||(p.tags&&p.tags.includes(f)));g.innerHTML=l.map(p=>`<div class="pc" onclick="oPM(${p.id})"><div class="pi-img" style="background:${CM[p.f]||CM['ocean-weaves']}">${p.bd?`<span class="pi-bdg${bc(p.bd)}">${p.bd}</span>`:''}<span class="pi-pat">${p.pa}</span><div class="pi-qv">Quick View</div></div><div class="pi-info"><p class="pi-coll">${p.co}</p><h3 class="pi-name">${p.n}</h3><p class="pi-price">\u20B9${p.pr.toLocaleString('en-IN')}</p>${st?`<div class="pi-tags">${p.tags.slice(0,3).map(t=>`<span class="pi-tag">${t}</span>`).join('')}</div>`:''}</div></div>`).join('')}
+function favBtn(id){const on=AAZHI.favs.has(id);return `<button class="pi-fav${on?' on':''}" data-fav="${id}" onclick="event.stopPropagation();toggleFav(${id},this)" aria-label="Toggle favourite"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>`}
+function rP(cid,f,st){const g=document.getElementById(cid);if(!g)return;let l=P;if(f&&f!=='all')l=P.filter(p=>p.f===f||p.ca===f||(p.tags&&p.tags.includes(f)));g.innerHTML=l.map(p=>`<div class="pc" onclick="oPM(${p.id})"><div class="pi-img" style="background:${CM[p.f]||CM['ocean-weaves']}">${p.bd?`<span class="pi-bdg${bc(p.bd)}">${p.bd}</span>`:''}${favBtn(p.id)}<span class="pi-pat">${p.pa}</span><div class="pi-qv">Quick View</div></div><div class="pi-info"><p class="pi-coll">${p.co}</p><h3 class="pi-name">${p.n}</h3><p class="pi-price">\u20B9${p.pr.toLocaleString('en-IN')}</p>${st?`<div class="pi-tags">${p.tags.slice(0,3).map(t=>`<span class="pi-tag">${t}</span>`).join('')}</div>`:''}</div></div>`).join('')}
 function fP(f){document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('act',b.dataset.f===f));rP('pG',f,true)}
 function oPM(id){cP=P.find(p=>p.id===id);if(!cP)return;mQ=1;sS=null;document.getElementById('pmP').textContent=cP.pa;document.querySelector('.md-img').style.background=CM[cP.f]||CM['ocean-weaves'];document.getElementById('pmC').textContent=cP.co;document.getElementById('pmN').textContent=cP.n;document.getElementById('pmPr').textContent='\u20B9'+cP.pr.toLocaleString('en-IN');document.getElementById('pmD').textContent=cP.ds;document.getElementById('pmQ').textContent='1';document.getElementById('pmSz').innerHTML=cP.sz.map(s=>`<button class="szb" onclick="pS('${s}',this)">${s}</button>`).join('');document.getElementById('pMo').classList.add('on');document.body.style.overflow='hidden'}
 function clPM(){document.getElementById('pMo').classList.remove('on');document.body.style.overflow=''}
@@ -471,7 +540,7 @@ function go(page,filter){document.querySelectorAll('.page').forEach(p=>p.classLi
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('sc',window.scrollY>80)});
 const ro=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart();if(document.getElementById('soO').classList.contains('op'))tgSearch();if(document.getElementById('sgO').classList.contains('op'))tgSize()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(document.getElementById('cSb').classList.contains('op'))tgCart();if(document.getElementById('soO').classList.contains('op'))tgSearch();if(document.getElementById('sgO').classList.contains('op'))tgSize();if(document.getElementById('authO').classList.contains('op'))closeAuth()}});
 // Video hero — aggressive autoplay
 (function(){
   var v = document.getElementById('heroBgVideo');
@@ -497,6 +566,174 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){clPM();clCO();if(do
   v.load();
 })();
 uC();
+
+// ============================================================
+// SUPABASE: auth (magic link), favourites, order persistence
+// ============================================================
+const AAZHI={sb:null,user:null,favs:new Set()};
+
+function aazhiInitSupabase(){
+  if(!window.SUPABASE_URL||!window.SUPABASE_ANON_KEY||window.SUPABASE_URL.includes('YOUR-PROJECT')){
+    console.warn('Supabase config not set. Edit supabase-config.js with your project URL + anon key.');
+    gateOpen();
+    return;
+  }
+  if(!window.supabase){console.warn('Supabase JS client not loaded');gateOpen();return;}
+  AAZHI.sb=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
+  gateOpen();
+  AAZHI.sb.auth.onAuthStateChange((event,session)=>{
+    AAZHI.user=session?session.user:null;
+    aazhiSyncUI();
+    if(event==='SIGNED_IN'){
+      gateClose();
+      loadFavs().then(refreshCurrentPage);
+      sT('Signed in as '+AAZHI.user.email);
+    } else if(event==='SIGNED_OUT'){
+      AAZHI.favs.clear();
+      go('home');
+      gateOpen();
+    }
+  });
+  AAZHI.sb.auth.getSession().then(({data})=>{
+    AAZHI.user=data.session?data.session.user:null;
+    aazhiSyncUI();
+    if(AAZHI.user){gateClose();loadFavs().then(refreshCurrentPage)}
+  });
+}
+
+function gateOpen(){
+  openAuth('Sign in');
+  document.getElementById('authO').classList.add('gated');
+  document.getElementById('authBk').classList.add('gated');
+  document.body.style.overflow='hidden';
+}
+function gateClose(){
+  document.getElementById('authBk').classList.remove('op','gated');
+  document.getElementById('authO').classList.remove('op','gated');
+  document.body.style.overflow='';
+}
+
+function aazhiSyncUI(){
+  const lnk=document.getElementById('lnk-account');
+  if(lnk)lnk.textContent=AAZHI.user?'Account':'Sign in';
+  const eRow=document.getElementById('acctEmailRow');
+  if(eRow)eRow.textContent=AAZHI.user?AAZHI.user.email:'—';
+}
+
+function refreshCurrentPage(){
+  const active=document.querySelector('.page.active');
+  if(!active)return;
+  const id=active.id.replace('pg-','');
+  if(id==='shop'){const cur=document.querySelector('.fbtn.act');fP(cur?cur.dataset.f:'all')}
+  else if(id==='collections'){rP('cg-ow','ocean-weaves',false);rP('cg-bp','block-prints',false);rP('cg-hl','handloom',false);rP('cg-cc','coastal',false)}
+  else if(id==='account')renderAcct()
+}
+
+function navAccountClick(){
+  if(AAZHI.user)go('account');
+  else openAuth('Sign in');
+}
+
+function openAuth(title){
+  document.getElementById('authTitle').innerHTML=title==='Sign in'?'Welcome to <em>AAZHI</em>':'Sign in to continue';
+  document.getElementById('authMsg').textContent='';
+  document.getElementById('authMsg').className='auth-msg';
+  document.getElementById('authBk').classList.add('op');
+  document.getElementById('authO').classList.add('op');
+  setTimeout(()=>document.getElementById('authEmail').focus(),200);
+}
+function closeAuth(){
+  if(!AAZHI.user)return;
+  document.getElementById('authBk').classList.remove('op');
+  document.getElementById('authO').classList.remove('op');
+  document.body.style.overflow='';
+}
+
+async function sendMagicLink(){
+  if(!AAZHI.sb){sT('Supabase not configured — see supabase-config.js');return;}
+  const email=document.getElementById('authEmail').value.trim();
+  const btn=document.getElementById('authBtn'),msg=document.getElementById('authMsg');
+  if(!email){msg.textContent='Please enter your email.';msg.className='auth-msg err';return;}
+  btn.disabled=true;btn.textContent='Sending…';msg.textContent='';msg.className='auth-msg';
+  const {error}=await AAZHI.sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+  btn.disabled=false;btn.textContent='Send magic link';
+  if(error){msg.textContent=error.message||'Could not send link. Try again.';msg.className='auth-msg err';return;}
+  msg.textContent='Check your inbox for a link from Supabase. Click it on this device to finish signing in.';
+  msg.className='auth-msg ok';
+}
+
+async function aazhiLogout(){
+  if(!AAZHI.sb)return;
+  await AAZHI.sb.auth.signOut();
+  go('home');
+  sT('Signed out');
+}
+
+async function loadFavs(){
+  AAZHI.favs.clear();
+  if(!AAZHI.user||!AAZHI.sb)return;
+  const {data,error}=await AAZHI.sb.from('favourites').select('product_id').eq('user_id',AAZHI.user.id);
+  if(error){console.warn('loadFavs',error);return;}
+  data.forEach(r=>AAZHI.favs.add(r.product_id));
+}
+
+async function toggleFav(pid,btn){
+  if(!AAZHI.user){openAuth();return;}
+  if(!AAZHI.sb)return;
+  const on=AAZHI.favs.has(pid);
+  if(on){
+    AAZHI.favs.delete(pid);btn.classList.remove('on');
+    const {error}=await AAZHI.sb.from('favourites').delete().eq('user_id',AAZHI.user.id).eq('product_id',pid);
+    if(error){AAZHI.favs.add(pid);btn.classList.add('on');sT('Could not remove favourite')}
+  } else {
+    AAZHI.favs.add(pid);btn.classList.add('on');
+    const {error}=await AAZHI.sb.from('favourites').insert({user_id:AAZHI.user.id,product_id:pid});
+    if(error){AAZHI.favs.delete(pid);btn.classList.remove('on');sT('Could not save favourite')}
+  }
+}
+
+async function renderAcct(){
+  const box=document.getElementById('acctOrders');
+  if(!AAZHI.sb){box.innerHTML='<p class="acct-empty">Supabase not configured.</p>';return;}
+  box.innerHTML='<p class="acct-empty">Loading orders…</p>';
+  const {data,error}=await AAZHI.sb.from('orders').select('*').eq('user_id',AAZHI.user.id).order('created_at',{ascending:false});
+  if(error){box.innerHTML='<p class="acct-empty">Could not load orders.</p>';return;}
+  if(!data.length){box.innerHTML='<p class="acct-empty">No orders yet. Your past purchases will appear here.</p>';return;}
+  box.innerHTML=data.map(o=>{
+    const d=new Date(o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+    const items=(o.items||[]).map(i=>`${i.n} ×${i.q} (${i.sz})`).join(', ');
+    return `<div class="acct-ord"><div class="acct-ord-h"><span class="acct-ord-code">${o.order_code}</span><span class="acct-ord-date">${d}</span><span class="acct-ord-total">₹${o.total.toLocaleString('en-IN')}</span></div><p class="acct-ord-items">${items}</p></div>`;
+  }).join('');
+}
+
+// Wrap go() to add a route guard for the account page.
+const _go=go;
+go=function(page,filter){
+  if(page==='account'&&!AAZHI.user){openAuth('Sign in');return;}
+  _go(page,filter);
+  if(page==='account')renderAcct();
+};
+
+// Wrap cfOrd to persist the order for signed-in users.
+const _cfOrd=cfOrd;
+cfOrd=async function(){
+  const code=document.getElementById('coP3').dataset.o||'AZ'+Date.now().toString().slice(-8);
+  const items=cart.slice();
+  const total=items.reduce((s,c)=>s+c.pr*c.q,0);
+  _cfOrd();
+  if(AAZHI.user&&AAZHI.sb){
+    const get=id=>{const el=document.getElementById(id);return el?el.value:null};
+    const {error}=await AAZHI.sb.from('orders').insert({
+      user_id:AAZHI.user.id,order_code:code,items,total,
+      full_name:get('cN'),email:get('cE'),phone:get('cPh'),
+      address:get('cA'),city:get('cCi'),pincode:get('cPi'),country:get('cCo')
+    });
+    if(error)console.warn('Order save failed:',error);
+  }
+};
+
+aazhiInitSupabase();
+
 const h=location.hash.replace('#','').split('/');
 if(h[0]&&h[0]!=='home'&&h[0]!==''){go(h[0],h[1]||null)}
 </script>
