@@ -655,7 +655,10 @@ async function sendMagicLink(){
   const btn=document.getElementById('authBtn'),msg=document.getElementById('authMsg');
   if(!email){msg.textContent='Please enter your email.';msg.className='auth-msg err';return;}
   btn.disabled=true;btn.textContent='Sending…';msg.textContent='';msg.className='auth-msg';
-  const {error}=await AAZHI.sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+  if(location.protocol==='file:'){msg.textContent='Magic-link sign-in needs the page served over http/https, not opened as a file. Run a local server (e.g. `python3 -m http.server 8000`) and open via http://localhost:8000/aazhi-store.html.';msg.className='auth-msg err';btn.disabled=false;btn.textContent='Send magic link';return;}
+  const redirectTo=window.AAZHI_REDIRECT_URL||(location.origin+location.pathname);
+  console.log('[AAZHI] magic-link redirectTo =',redirectTo,'— this exact URL must be allowlisted in Supabase Auth → URL Configuration → Redirect URLs.');
+  const {error}=await AAZHI.sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirectTo}});
   btn.disabled=false;btn.textContent='Send magic link';
   if(error){msg.textContent=error.message||'Could not send link. Try again.';msg.className='auth-msg err';return;}
   msg.textContent='Check your inbox for a link from Supabase. Click it on this device to finish signing in.';
